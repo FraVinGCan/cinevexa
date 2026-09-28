@@ -1,75 +1,55 @@
-# React + TypeScript + Vite
+# Cinevexa
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A movie and TV discovery web app built on the [TMDB API](https://developer.themoviedb.org/docs/getting-started), with no separate backend, database, or auth system.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- TypeScript
+- Vite 8
+- React Router
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Install dependencies:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Create a local env file from the example and add your TMDB API key:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+cp .env.example .env
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_TMDB_API_KEY=your-tmdb-api-key
+```
 
+Get a key from the [TMDB developer portal](https://developer.themoviedb.org/signup). The `.env` file is gitignored and must not be committed.
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+## Scripts
+
+| Script            | Description                        |
+| ----------------- | ---------------------------------- |
+| `npm run dev`     | Start the Vite dev server with HMR |
+| `npm run build`   | Type-check, then build for production |
+| `npm run lint`    | Run ESLint                         |
+| `npm run preview` | Serve the production build locally |
+
+## Structure
+
+```
+src/
+├── App.tsx        # Root component
+├── main.tsx       # Entry point, React Router setup
+└── css/
+    └── main.css   # Global styles
 ```
