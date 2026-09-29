@@ -5,3 +5,6 @@ args = ["-y", "react-docs-mcp"]
 [mcp_servers.shadcn]
 command = "npx"
 args = ["shadcn@latest", "mcp"]
+
+[mcp_servers.inkeepMcp]
+url = "https://mcp.inkeep.com/zod/mcp"
