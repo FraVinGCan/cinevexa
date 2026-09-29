@@ -1,0 +1,52 @@
+# Repository Agent Rules
+
+These rules apply throughout this repository.
+
+## Boundaries
+
+- Treat this repository as a movie and TV discovery web app.
+- Do not start, stop, restart, or otherwise manage the frontend development servers unless the user explicitly requests it.
+- Do not run `npm run dev` unless the user explicitly requests it. Inform me if the implementation requires restarting.
+- Run Git commands only for read-only inspection. Do not commit, amend, stage, reset, restore, checkout, rebase, merge, push, pull, or change branches unless the user explicitly requests it.
+- Preserve existing user changes. Do not revert, overwrite, or delete unrelated work.
+- Get the user's approval before changing dependencies, including npm packages, project-wide tooling, or the base directory structure.
+
+## Before Editing
+
+- At the start of a session, read relevant `docs/` guidance, review recent Git history, and inspect staged and unstaged changes before editing.
+- Read and follow the `AGENTS.md` before changing files.
+- Read and follow the rules in `.agents/rules/` — they encode settled project conventions, traps, and constraints that must always be respected.
+- Follow the established conventions in the files surrounding the change.
+- Keep changes scoped to the user's request.
+- Use relevant available skills, MCP tools, subagents, and purpose-built project tooling when they fit the task.
+- If a fix fails, remove or revise stale changes created for that failed approach before trying another.
+
+## Validation
+
+- Validate changes in proportion to their risk, using the narrowest relevant checks first.
+- Follow any formatter, test, and verification requirements.
+- Format code with `npx prettier --write <files>`.
+- Report checks that were run and any checks that could not be run.
+
+## Documentation
+
+- Keep this file limited to agent behavior and repository constraints.
+- Put new architecture, setup, operational, and product documentation in `docs/`; keep README files limited to project entry-point information.
+- Do not edit `.env`; use `.env.example`, config files, `docs/`, or deployment variables instead.
+- Keep documentation in sync with changes: when work affects behavior, setup, conventions, or entry points, update the relevant file as needed — `README.md` for project entry-point info, `docs/` for architecture/setup/operational guidance, `.agents/rules/` for conventions and traps, `AGENTS.md` for agent behavior rules. Update only what the change affects; do not pad unrelated documentation.
+- Write documentation, rules, `AGENTS.md`, and `README.md` in the present tense and as normative statements of the current state — never as history ("was removed", "formerly", "previously", "we migrated"). When something is obsolete, delete or replace the stale reference; do not chronicle it.
+
+## Recording Project Rules
+
+When the user states a durable project rule or convention — "we always do X", "never use Y", or names a settled decision — record it proactively, without waiting to be asked:
+
+- **Product, architecture, setup, or operational facts** → `docs/` (committed and shared).
+- **Agent behavior, code conventions, and traps** → `.agents/rules/<area>/`.
+
+Every note:
+
+- is a few lines, titled by the convention;
+- declares the files it applies to with a glob line (`Applies to: src/components/**`);
+- **is updated in place when restated** — never add a duplicate note for a rule you already recorded.
+
+Do not record secrets, transient state, or anything already obvious from the code. `.agents/rules/` is committed and shared with teammates, so record conventions there directly. `docs/` stays for product, architecture, setup, and operational documentation.

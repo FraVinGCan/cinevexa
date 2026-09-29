@@ -1,0 +1,7 @@
+[mcp_servers.react-docs]
+command = "npx"
+args = ["-y", "react-docs-mcp"]
+
+[mcp_servers.shadcn]
+command = "npx"
+args = ["shadcn@latest", "mcp"]
