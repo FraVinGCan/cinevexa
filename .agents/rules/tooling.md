@@ -10,6 +10,14 @@ Add and update shadcn/ui components with the `shadcn` MCP — its add commands, 
 
 Files under `src/components/ui/**` are project source: they are committed, customized, and edited like any other component. Source them through the MCP, then adapt them freely.
 
+A generated component file exports the component and nothing else, because `react-refresh/only-export-components` is an error. The registry places non-component exports beside components, so move them into sibling modules and import them back:
+
+- `cva` variant maps → `<name>-variants.ts` (`buttonVariants`, `badgeVariants`, `tabsListVariants`)
+- carousel context, hook, and types → `carousel-context.ts`
+- `toast`, `createToastManager`, `useToastManager` → `toast-manager.ts`
+
+`solid` style Base UI and Radix registries both need this treatment, so expect it on every add. Run `npm run lint` after each `shadcn` add and move the new exports before committing.
+
 ## Verify React APIs against the docs
 
 Applies to: `src/**`
