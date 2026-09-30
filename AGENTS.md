@@ -11,6 +11,7 @@ These rules apply throughout this repository.
 - Preserve existing user changes. Do not revert, overwrite, or delete unrelated work.
 - Never hand-edit build output, vendored dependencies, or other generated artifacts: `dist/`, `node_modules/`, coverage, and lockfiles. Fix the tool that produces them instead.
 - Get the user's approval before changing dependencies, including npm packages, project-wide tooling, or the base directory structure. Check `package.json` for an existing library first, and keep `components.json` and the Tailwind theme tokens in sync with the installed stack.
+- Do not create, update, move, or delete anything under `docs/plans/` unless the user explicitly requests it.
 
 ## Before Editing
 
@@ -38,6 +39,7 @@ These rules apply throughout this repository.
 
 ## Tools
 
+- At the start of any session that touches design, run `impeccable context` before other work — `.agents/skills/impeccable/scripts/impeccable.cmd context` on this shell — and run `impeccable doctor` when it reports `CONTEXT_STALE`.
 - Verify UI in the browser with Playwright instead of asserting that it works. Take screenshots, scan for defects, and fix them in bounded passes rather than open-ended iteration.
 - Run Git commands for inspection only, and report checks that could not be run.
 
@@ -53,6 +55,7 @@ These rules apply throughout this repository.
 - Keep this file limited to agent behavior and repository constraints.
 - Put new architecture, setup, operational, and product documentation in `docs/`; keep README files limited to project entry-point information.
 - Do not edit `.env`; use `.env.example`, config files, `docs/`, or deployment variables instead.
+- `PRODUCT.md` and `DESIGN.md` live at the repository root, not in `docs/`, because the `impeccable` skill resolves those paths at the root. Relocating them breaks its context loader.
 - Keep documentation in sync with changes: when work affects behavior, setup, conventions, or entry points, update the relevant file as needed — `README.md` for project entry-point info, `docs/` for architecture/setup/operational guidance, `.agents/rules/` for conventions and traps, `AGENTS.md` for agent behavior rules. Update only what the change affects; do not pad unrelated documentation.
 - Write documentation, rules, `AGENTS.md`, and `README.md` in the present tense and as normative statements of the current state — never as history ("was removed", "formerly", "previously", "we migrated"). When something is obsolete, delete or replace the stale reference; do not chronicle it.
 
