@@ -9,6 +9,7 @@ These rules apply throughout this repository.
 - Do not run `npm run dev` unless the user explicitly requests it. Inform me if the implementation requires restarting.
 - Run Git commands only for read-only inspection. Do not commit, amend, stage, reset, restore, checkout, rebase, merge, push, pull, or change branches unless the user explicitly requests it.
 - Preserve existing user changes. Do not revert, overwrite, or delete unrelated work.
+- Never hand-edit build output, vendored dependencies, or other generated artifacts: `dist/`, `node_modules/`, coverage, and lockfiles. Fix the tool that produces them instead.
 - Get the user's approval before changing dependencies, including npm packages, project-wide tooling, or the base directory structure. Check `package.json` for an existing library first, and keep `components.json` and the Tailwind theme tokens in sync with the installed stack.
 
 ## Before Editing
@@ -24,7 +25,7 @@ These rules apply throughout this repository.
 ## MCPs
 
 - Verify React, React Router, and React DOM APIs against the `react-docs` MCP. Do not code from memory for behavior or hooks that changed across React 19 or React Router 8.
-- Source shadcn/ui components through the `shadcn` MCP — its add commands, registry search, and component metadata. Never hand-write a registry component.
+- Source shadcn/ui components through the `shadcn` MCP — its add commands, registry search, and component metadata.
 - Answer Zod questions with the `inkeepMcp` MCP so validation schemas target Zod 4 APIs.
 - Use the `shadcn` MCP's add command for every component addition so the dependency change it implies surfaces for approval.
 - Use subagents for open-ended searches and purpose-built project tooling whenever it fits the task.

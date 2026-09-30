@@ -6,7 +6,9 @@ Reach for the MCP servers and skills below whenever the task calls for them, and
 
 Applies to: `src/components/ui/**`
 
-Add and update shadcn/ui components with the `shadcn` MCP — its add commands, registry search, and component metadata. Never hand-write a registry component, and never hand-edit generated files beyond the styling this project customizes.
+Add and update shadcn/ui components with the `shadcn` MCP — its add commands, registry search, and component metadata. Never hand-write a registry component.
+
+Files under `src/components/ui/**` are project source: they are committed, customized, and edited like any other component. Source them through the MCP, then adapt them freely.
 
 ## Verify React APIs against the docs
 
