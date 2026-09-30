@@ -9,7 +9,7 @@ These rules apply throughout this repository.
 - Do not run `npm run dev` unless the user explicitly requests it. Inform me if the implementation requires restarting.
 - Run Git commands only for read-only inspection. Do not commit, amend, stage, reset, restore, checkout, rebase, merge, push, pull, or change branches unless the user explicitly requests it.
 - Preserve existing user changes. Do not revert, overwrite, or delete unrelated work.
-- Get the user's approval before changing dependencies, including npm packages, project-wide tooling, or the base directory structure.
+- Get the user's approval before changing dependencies, including npm packages, project-wide tooling, or the base directory structure. Check `package.json` for an existing library first, and keep `components.json` and the Tailwind theme tokens in sync with the installed stack.
 
 ## Before Editing
 
@@ -18,8 +18,27 @@ These rules apply throughout this repository.
 - Read and follow the rules in `.agents/rules/` — they encode settled project conventions, traps, and constraints that must always be respected.
 - Follow the established conventions in the files surrounding the change.
 - Keep changes scoped to the user's request.
-- Use relevant available skills, MCP tools, subagents, and purpose-built project tooling when they fit the task.
+- Always use the MCP servers and skills below when the task calls for them.
 - If a fix fails, remove or revise stale changes created for that failed approach before trying another.
+
+## MCPs
+
+- Verify React, React Router, and React DOM APIs against the `react-docs` MCP. Do not code from memory for behavior or hooks that changed across React 19 or React Router 8.
+- Source shadcn/ui components through the `shadcn` MCP — its add commands, registry search, and component metadata. Never hand-write a registry component.
+- Answer Zod questions with the `inkeepMcp` MCP so validation schemas target Zod 4 APIs.
+- Use the `shadcn` MCP's add command for every component addition so the dependency change it implies surfaces for approval.
+- Use subagents for open-ended searches and purpose-built project tooling whenever it fits the task.
+
+## Skills
+
+- Load a skill with the `skill` tool when the task matches its scope. Skills live in `.agents/skills/`; load by name, not by reading `SKILL.md` directly.
+- Available skills: `impeccable`, `ui-styling`, `ui-ux-pro-max`, `design-system`, `design`, `brand`, `banner-design`, `slides`, `tanstack-ai`, `tanstack-ai-migration`.
+- Load `impeccable` for UI and design work, including critique and polish passes.
+
+## Tools
+
+- Verify UI in the browser with Playwright instead of asserting that it works. Take screenshots, scan for defects, and fix them in bounded passes rather than open-ended iteration.
+- Run Git commands for inspection only, and report checks that could not be run.
 
 ## Validation
 

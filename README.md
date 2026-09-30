@@ -4,10 +4,12 @@ A movie and TV discovery web app built on the [TMDB API](https://developer.themo
 
 ## Stack
 
-- React 19
-- TypeScript
-- Vite 8
-- React Router
+- React 19, TypeScript 6, Vite 8
+- React Router 8 for routing
+- TanStack Query 5 and its devtools for TMDB data fetching and caching
+- shadcn/ui on Base UI, styled with Tailwind CSS 4
+- React Hook Form with Zod 4 for forms and validation
+- Zustand 5 for client state
 
 ## Getting started
 
@@ -37,19 +39,23 @@ npm run dev
 
 ## Scripts
 
-| Script            | Description                        |
-| ----------------- | ---------------------------------- |
-| `npm run dev`     | Start the Vite dev server with HMR |
+| Script            | Description                           |
+| ----------------- | ------------------------------------- |
+| `npm run dev`     | Start the Vite dev server with HMR    |
 | `npm run build`   | Type-check, then build for production |
-| `npm run lint`    | Run ESLint                         |
-| `npm run preview` | Serve the production build locally |
+| `npm run lint`    | Run ESLint                            |
+| `npm run preview` | Serve the production build locally    |
 
 ## Structure
 
 ```
 src/
-├── App.tsx        # Root component
-├── main.tsx       # Entry point, React Router setup
+├── App.tsx                 # Root component
+├── main.tsx                # Entry point, providers and router setup
+├── components/
+│   └── ui/                 # shadcn/ui components
+├── lib/
+│   └── utils.ts            # Shared helpers
 └── css/
-    └── main.css   # Global styles
+    └── main.css            # Global styles
 ```
