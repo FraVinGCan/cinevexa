@@ -9,6 +9,21 @@
         document.head.append(bridge)
       }
     </script>
+    <script>
+      // Applies the persisted theme before first paint so the shell never flashes
+      // the wrong ground. The key and shape are owned by src/features/ui/ui.store.ts.
+      ;(() => {
+        try {
+          const stored = localStorage.getItem('cinevexa-ui')
+          const theme = stored ? JSON.parse(stored)?.state?.theme : null
+          const dark = theme !== 'light'
+          document.documentElement.classList.toggle('dark', dark)
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
+        } catch {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
