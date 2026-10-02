@@ -1,4 +1,4 @@
-import type { MediaType, TrendingWindow } from '@/types/tmdb'
+import type { MediaType, TrendingScope, TrendingWindow } from '@/types/tmdb'
 
 export const MOVIE_APPEND = [
   'credits',
@@ -33,8 +33,8 @@ export const endpoints = {
   configuration: () => '/configuration',
   genres: (mediaType: 'movie' | 'tv') => `/genre/${mediaType}/list`,
   certifications: () => '/certification/movie/list',
-  trending: (mediaType: MediaType, window: TrendingWindow) =>
-    `/trending/${mediaType}/${window}`,
+  trending: (scope: TrendingScope, window: TrendingWindow) =>
+    `/trending/${scope}/${window}`,
   movieRail: (rail: MovieRail) => `/movie/${rail}`,
   tvRail: (rail: TvRail) => `/tv/${rail}`,
   movieDetail: (id: number) => `/movie/${id}`,

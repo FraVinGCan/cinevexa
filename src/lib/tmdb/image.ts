@@ -1,20 +1,38 @@
 export const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p'
 
-export type PosterSize = 'grid' | 'detail' | 'lightbox'
+export type PosterSize = 'thumb' | 'grid' | 'detail' | 'lightbox'
 export type BackdropSize = 'rail' | 'hero'
 export type ProfileSize = 'list' | 'lightbox'
 export type StillSize = 'card'
 export type LogoSize = 'provider'
 
+export type ArtworkSize = {
+  width: number
+  height: number
+}
+
 export const posterSizes: Record<PosterSize, string> = {
+  thumb: 'w154',
   grid: 'w342',
   detail: 'w500',
   lightbox: 'original',
 }
 
+export const posterDimensions: Record<PosterSize, ArtworkSize> = {
+  thumb: { width: 154, height: 231 },
+  grid: { width: 342, height: 513 },
+  detail: { width: 500, height: 750 },
+  lightbox: { width: 2000, height: 3000 },
+}
+
 export const backdropSizes: Record<BackdropSize, string> = {
   rail: 'w780',
   hero: 'w1280',
+}
+
+export const backdropDimensions: Record<BackdropSize, ArtworkSize> = {
+  rail: { width: 780, height: 439 },
+  hero: { width: 1280, height: 720 },
 }
 
 export const profileSizes: Record<ProfileSize, string> = {

@@ -7,6 +7,8 @@ export type Paged<T> = {
 
 export type MediaType = 'movie' | 'tv' | 'person'
 
+export type TrendingScope = MediaType | 'all'
+
 export type TrendingWindow = 'day' | 'week'
 
 export type GenreList = {
@@ -231,6 +233,8 @@ export type TvListItem = {
   vote_count: number
 }
 
+export type TitleListItem = MovieListItem | TvListItem
+
 export type PersonListItem = {
   id: number
   name: string
@@ -247,6 +251,10 @@ export type PersonListItem = {
 export type TrendingResult = (MovieListItem | TvListItem | PersonListItem) & {
   media_type: 'movie' | 'tv' | 'person'
 }
+
+export type TrendingTitle =
+  | (MovieListItem & { media_type: 'movie' })
+  | (TvListItem & { media_type: 'tv' })
 
 export type TrendingList = {
   id: number
