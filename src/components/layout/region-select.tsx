@@ -39,7 +39,7 @@ export function RegionSelect() {
         <DropdownMenuGroup>
           <DropdownMenuLabel className="leading-relaxed">
             Market
-            <span className="mt-1 block text-[0.7rem] font-normal text-muted-foreground/80">
+            <span className="mt-1 block text-xs font-normal text-muted-foreground/80">
               Watch providers, certifications and rails resolve against this
               market.
             </span>

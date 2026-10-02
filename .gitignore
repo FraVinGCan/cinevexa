@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 .agents/skills/
+.impeccable/
 .opencode/
 
 .env
