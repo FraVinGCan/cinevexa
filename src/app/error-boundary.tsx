@@ -96,7 +96,7 @@ export class AppErrorBoundary extends Component<
           onRetry={this.handleRetry}
           action={{ label: 'Back to the index', to: '/' }}
         />
-        <Button variant="ghost" render={<Link to="/" />}>
+        <Button nativeButton={false} variant="ghost" render={<Link to="/" />}>
           Go home without reloading
         </Button>
       </div>

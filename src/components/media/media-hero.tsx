@@ -77,7 +77,11 @@ export function MediaHero({
             </p>
           )}
           <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-            <Button size="lg" className="h-11" render={<Link to={to} />}>
+            <Button
+              nativeButton={false}
+              size="lg"
+              className="h-11"
+              render={<Link to={to} />}>
               {actionLabel}
             </Button>
             {children}

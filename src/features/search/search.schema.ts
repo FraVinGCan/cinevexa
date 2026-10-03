@@ -85,8 +85,3 @@ export function parseSearchState(search: URLSearchParams): SearchState {
 export function isSearchableQuery(query: string): boolean {
   return query.trim() !== ''
 }
-
-/** `known_for_department` arrives as `Acting` or `Directing`; prose wants `Acting`. */
-export function titleCase(value: string): string {
-  return value.replace(/\b\w/g, (letter) => letter.toUpperCase())
-}

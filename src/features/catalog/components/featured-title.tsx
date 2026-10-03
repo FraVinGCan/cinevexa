@@ -38,8 +38,13 @@ export function FeaturedTitle() {
         icon={FilmIcon}
         title="Nothing is trending today"
         description="TMDB returned no trending titles for today. Retry shortly, or open the catalogue and pick a channel.">
-        <Button render={<Link to="/discover/movies" />}>Browse movies</Button>
-        <Button variant="outline" render={<Link to="/discover/tv" />}>
+        <Button nativeButton={false} render={<Link to="/discover/movies" />}>
+          Browse movies
+        </Button>
+        <Button
+          nativeButton={false}
+          variant="outline"
+          render={<Link to="/discover/tv" />}>
           Browse TV
         </Button>
       </EmptyState>

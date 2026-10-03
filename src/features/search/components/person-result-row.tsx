@@ -1,8 +1,7 @@
 import { Link } from 'react-router'
 import { MediaPoster } from '@/components/media/media-poster'
-import { titleOf } from '@/lib/tmdb/format'
+import { titleCase, titleOf } from '@/lib/tmdb/format'
 import { profileDimensions, profileUrl } from '@/lib/tmdb/image'
-import { titleCase } from '../search.schema'
 import type { PersonListItem, TitleListItem } from '@/types/tmdb'
 
 type PersonResultRowProps = {

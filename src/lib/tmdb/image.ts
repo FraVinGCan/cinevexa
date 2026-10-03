@@ -61,6 +61,15 @@ export function imageUrl(
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
 }
 
+/**
+ * Original resolution, for a path already known to exist. The nullable helpers
+ * above are for records where artwork may be missing; an artwork frame that was
+ * listed by TMDB is not missing, so this does not widen.
+ */
+export function originalUrl(path: string): string {
+  return `${TMDB_IMAGE_BASE_URL}/original${path}`
+}
+
 export function posterUrl(
   path: string | null | undefined,
   size: PosterSize,

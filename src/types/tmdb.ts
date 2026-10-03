@@ -123,15 +123,18 @@ export type VideoList = {
   results: Video[]
 }
 
+export type ReviewAuthorDetails = {
+  name: string
+  username: string
+  avatar_path: string | null
+  rating: number | null
+}
+
 export type Review = {
   id: string
+  /** TMDB's `author` is the username; the display name is in the details. */
   author: string
-  author_details: {
-    name: string
-    username: string
-    avatar_path: string | null
-    rating: number | null
-  }
+  author_details: ReviewAuthorDetails
   content: string
   created_at: string
   updated_at: string
@@ -149,14 +152,27 @@ export type ReviewList = {
 export type MonetizationType = 'flatrate' | 'free' | 'ads' | 'rent' | 'buy'
 
 export type WatchProvider = {
-  display_priorities: Record<string, number>
   display_priority: number
   logo_path: string
   provider_id: number
   provider_name: string
 }
 
-export type WatchProviderRegion = Record<string, WatchProvider[]>
+/**
+ * One market's answer for a title. Each monetisation key is present only when a
+ * provider offers it there, so an absent key is the honest absence rather than an
+ * empty list.
+ */
+export type WatchProviderRegionEntry = {
+  link: string
+  buy?: WatchProvider[]
+  rent?: WatchProvider[]
+  flatrate?: WatchProvider[]
+  ads?: WatchProvider[]
+  free?: WatchProvider[]
+}
+
+export type WatchProviderRegion = Record<string, WatchProviderRegionEntry>
 
 export type WatchProviders = {
   id: number
@@ -212,6 +228,7 @@ export type MovieListItem = {
   popularity: number
   video: boolean
   vote_average: number
+  softcore: boolean
   vote_count: number
 }
 
@@ -230,6 +247,7 @@ export type TvListItem = {
   adult: boolean
   popularity: number
   vote_average: number
+  softcore: boolean
   vote_count: number
 }
 
@@ -324,6 +342,7 @@ export type MovieDetail = {
   genres: Genre[]
   homepage: string | null
   imdb_id: string | null
+  origin_country: string[]
   original_language: string
   original_title: string
   overview: string | null
@@ -332,16 +351,6 @@ export type MovieDetail = {
   production_companies: ProductionCompany[]
   production_countries: ProductionCountry[]
   release_date: string
-  releases: {
-    iso_639_1: string
-    release_dates: {
-      certification: string
-      iso_639_1: string
-      note: string
-      release_date: number
-      type: number
-    }[]
-  }[]
   revenue: number
   runtime: number | null
   spoken_languages: SpokenLanguage[]
@@ -350,6 +359,7 @@ export type MovieDetail = {
   title: string
   video: boolean
   vote_average: number
+  softcore: boolean
   vote_count: number
   credits?: Credits
   external_ids?: ExternalIds
@@ -363,7 +373,8 @@ export type MovieDetail = {
         certification: string
         iso_639_1: string
         note: string
-        release_date: number
+        /** An ISO 8601 timestamp, not an epoch. */
+        release_date: string
         type: number
       }[]
     }[]
@@ -413,8 +424,6 @@ export type NextEpisode = {
   still_path: string | null
   vote_average: number
   vote_count: number
-  crew: CrewMember[]
-  guest_stars: CastMember[]
   runtime: number | null
 }
 
@@ -424,11 +433,11 @@ export type EpisodeListItem = {
   air_date: string | null
   crew: CrewMember[]
   episode_number: number
+  episode_type: string
   guest_stars: CastMember[]
   id: number
   name: string
   overview: string
-  popularity: number
   production_code: string
   season_number: number
   show_id: number
@@ -443,14 +452,12 @@ export type SeasonDetail = {
   air_date: string | null
   episodes: EpisodeListItem[]
   name: string
+  networks: Network[]
   overview: string
   id: number
   poster_path: string | null
   season_number: number
-  still_path: string | null
   vote_average: number
-  credits?: Credits
-  external_ids?: ExternalIds
 }
 
 export type ContentRating = {
@@ -484,8 +491,9 @@ export type TvDetail = {
   languages: string[]
   last_air_date: string
   last_episode_to_air: NextEpisode | null
-  next_episode_to_air: NextEpisode | null
+  name: string
   networks: Network[]
+  next_episode_to_air: NextEpisode | null
   number_of_episodes: number
   number_of_seasons: number
   origin_country: string[]
@@ -502,18 +510,39 @@ export type TvDetail = {
   tagline: string | null
   type: string
   vote_average: number
+  softcore: boolean
   vote_count: number
   credits?: Credits
   content_ratings?: ContentRating
   external_ids?: ExternalIds
   images?: BackdropImages & PosterImages & { logos: PosterImage[] }
-  keywords?: Paged<Keyword>
   recommendations?: Paged<TvListItem>
   reviews?: ReviewList
   similar?: Paged<TvListItem>
   videos?: VideoList
   'watch/providers'?: WatchProviders
   media_type?: 'movie' | 'tv'
+}
+
+/**
+ * A person credit is a list item with the credit's own fields folded in, and
+ * `media_type` is present on every one of them because a filmography mixes films
+ * and series that are otherwise indistinguishable by shape alone.
+ */
+export type PersonCastCredit = (MovieListItem | TvListItem) & {
+  character: string
+  credit_id: string
+  order: number
+  episode_count?: number
+  media_type: 'movie' | 'tv'
+}
+
+export type PersonCrewCredit = (MovieListItem | TvListItem) & {
+  credit_id: string
+  department: string
+  job: string
+  episode_count?: number
+  media_type: 'movie' | 'tv'
 }
 
 export type PersonDetail = {
@@ -534,44 +563,50 @@ export type PersonDetail = {
   adult: boolean
   images?: ProfileImages
   combined_credits?: {
-    cast: (MovieListItem & {
-      credit_id: string
-      character: string
-      order: number
-      episode_number?: number
-      season_number?: number
-      media_type: 'movie' | 'tv'
-    })[]
-    crew: (MovieListItem & {
-      credit_id: string
-      department: string
-      job: string
-      episode_number?: number
-      season_number?: number
-      media_type: 'movie' | 'tv'
-    })[]
+    cast: PersonCastCredit[]
+    crew: PersonCrewCredit[]
   }
 }
 
-export type CollectionPart = {
+export type CollectionMoviePart = {
   id: number
-  title?: string
-  name?: string
-  overview: string
-  poster_path: string | null
-  backdrop_path: string | null
-  media_type?: 'movie' | 'tv'
-  genre_ids: number[]
-  original_language: string
-  original_title?: string
-  original_name?: string
-  release_date?: string
-  first_air_date?: string
-  popularity: number
-  vote_average: number
-  vote_count: number
   adult: boolean
+  backdrop_path: string | null
+  genre_ids: number[]
+  media_type?: 'movie' | 'tv'
+  original_language: string
+  original_title: string
+  overview: string
+  popularity: number
+  poster_path: string | null
+  release_date: string
+  title: string
+  video: boolean
+  vote_average: number
+  softcore: boolean
+  vote_count: number
 }
+
+export type CollectionTvPart = {
+  id: number
+  adult: boolean
+  backdrop_path: string | null
+  first_air_date: string
+  genre_ids: number[]
+  media_type?: 'movie' | 'tv'
+  name: string
+  origin_country: string[]
+  original_language: string
+  original_name: string
+  overview: string
+  popularity: number
+  poster_path: string | null
+  vote_average: number
+  softcore: boolean
+  vote_count: number
+}
+
+export type CollectionPart = CollectionMoviePart | CollectionTvPart
 
 export type CollectionDetail = {
   id: number

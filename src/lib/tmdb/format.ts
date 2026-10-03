@@ -63,10 +63,17 @@ export function yearOf(item: TitleListItem): string | null {
 }
 
 export function releaseLineOf(item: TitleListItem): string | null {
-  const parsed = parseIsoDate(releaseDateOf(item))
-  if (!parsed) return null
-  const verb = isTvTitle(item) ? 'First aired' : 'Released'
-  return `${verb} ${parsed.day} ${MONTHS[parsed.month]} ${parsed.year}`
+  return releaseLine(releaseDateOf(item), isTvTitle(item))
+}
+
+/**
+ * Shared by list items and detail payloads: a detail response carries
+ * `first_air_date` or `release_date` directly and never both.
+ */
+export function releaseLine(date: string, isTv: boolean): string | null {
+  const formatted = formatDayMonthYear(date)
+  if (formatted === null) return null
+  return `${isTv ? 'First aired' : 'Released'} ${formatted}`
 }
 
 export function hasScore(item: {
@@ -94,4 +101,44 @@ export function formatRuntime(
 export function languageLabel(code: string | null | undefined): string | null {
   if (!code) return null
   return code.toUpperCase()
+}
+
+/** `2015-06-09T07:21:30Z` and `2015-06-09` both reduce to a day a reader can read. */
+export function formatDayMonthYear(value: string | null): string | null {
+  if (value === null) return null
+  const date = value.slice(0, 10)
+  const parsed = parseIsoDate(date)
+  if (!parsed) return null
+  return `${parsed.day} ${MONTHS[parsed.month]} ${parsed.year}`
+}
+
+/**
+ * TMDB reports money in whole dollars. Zero means the figure was never recorded
+ * rather than that the film cost nothing, so an unrecorded budget is no fact.
+ */
+export function formatMoney(amount: number): string | null {
+  if (amount <= 0) return null
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(amount)
+}
+
+/** ISO 3166-1 codes are all the API gives, so the code is what can be shown. */
+export function formatCountryCodes(
+  codes: readonly string[] | null | undefined,
+): string | null {
+  if (!codes || codes.length === 0) return null
+  return [...new Set(codes)].join(' · ')
+}
+
+/**
+ * TMDB's own enum strings are already sentence-cased except the first letter
+ * (`known_for_department` arrives as `Acting`, `status` as `Returning Series`),
+ * so only the opening letter needs work for prose.
+ */
+export function titleCase(value: string): string {
+  return value.replace(/\b\w/g, (letter) => letter.toUpperCase())
 }

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { cn } from 'cn'
 import { MediaPoster } from './media-poster'
@@ -16,12 +17,15 @@ type PosterCardProps = {
   item: TitleListItem
   size?: PosterSize
   className?: string
+  /** Read under the year: the part a person played, or the job they did. */
+  trailing?: ReactNode
 }
 
 export function PosterCard({
   item,
   size = 'grid',
   className,
+  trailing,
 }: PosterCardProps) {
   const year = yearOf(item)
   const scored = hasScore(item)
@@ -51,6 +55,7 @@ export function PosterCard({
             />
           )}
           <p className="text-xs text-muted-foreground">{year ?? 'Undated'}</p>
+          {trailing}
         </div>
       </div>
     </Link>

@@ -46,6 +46,41 @@ const routes: RouteObject[] = [
         handle: { title: 'Search' },
       },
       {
+        path: 'keyword',
+        lazy: () => import('@/routes/keyword-search'),
+        handle: { title: 'Themes' },
+      },
+      {
+        path: 'keyword/:id',
+        lazy: () => import('@/routes/keyword-detail'),
+        handle: { title: 'Theme' },
+      },
+      {
+        path: 'movie/:id',
+        lazy: () => import('@/routes/movie-detail'),
+        handle: { title: 'Film' },
+      },
+      {
+        path: 'tv/:id',
+        lazy: () => import('@/routes/tv-detail'),
+        handle: { title: 'Series' },
+      },
+      {
+        path: 'tv/:id/season/:seasonNumber',
+        lazy: () => import('@/routes/tv-season'),
+        handle: { title: 'Season' },
+      },
+      {
+        path: 'person/:id',
+        lazy: () => import('@/routes/person-detail'),
+        handle: { title: 'Person' },
+      },
+      {
+        path: 'collection/:id',
+        lazy: () => import('@/routes/collection-detail'),
+        handle: { title: 'Collection' },
+      },
+      {
         path: '*',
         lazy: () => import('@/routes/not-found'),
         handle: { title: 'Not in the index' },

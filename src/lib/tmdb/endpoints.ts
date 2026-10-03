@@ -24,6 +24,11 @@ export const TV_APPEND = [
   'external_ids',
 ] as const
 
+export const PERSON_APPEND = ['combined_credits', 'images'] as const
+
+/** `parts` is already part of a collection, so only the artwork is appended. */
+export const COLLECTION_APPEND = ['images'] as const
+
 export type MovieRail = 'now_playing' | 'popular' | 'top_rated' | 'upcoming'
 export type TvRail = 'popular' | 'top_rated' | 'on_the_air' | 'airing_today'
 export type AccountListKind = 'watchlist' | 'favorite' | 'rated'
@@ -43,7 +48,9 @@ export const endpoints = {
     `/tv/${id}/season/${seasonNumber}`,
   personDetail: (id: number) => `/person/${id}`,
   collectionDetail: (id: number) => `/collection/${id}`,
-  keywordSearch: () => '/keyword/search',
+  /** TMDB searches keywords under the search root, not under `/keyword`. */
+  keywordSearch: () => '/search/keyword',
+  keywordDetail: (id: number) => `/keyword/${id}`,
   keywordMovies: (id: number) => `/keyword/${id}/movies`,
   discover: (mediaType: TitleMediaType) => `/discover/${mediaType}`,
   search: (mediaType: MediaType) => `/search/${mediaType}`,

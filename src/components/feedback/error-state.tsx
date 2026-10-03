@@ -40,7 +40,11 @@ export function ErrorState({
               {retryLabel}
             </Button>
           )}
-          <Button variant="ghost" size="sm" render={<Link to={action.to} />}>
+          <Button
+            nativeButton={false}
+            variant="ghost"
+            size="sm"
+            render={<Link to={action.to} />}>
             {action.label}
           </Button>
         </div>

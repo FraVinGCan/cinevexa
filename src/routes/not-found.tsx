@@ -23,11 +23,19 @@ export function Component() {
         </p>
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <Button render={<Link to="/" />}>Back to the index</Button>
-        <Button variant="outline" render={<Link to="/discover/movies" />}>
+        <Button nativeButton={false} render={<Link to="/" />}>
+          Back to the index
+        </Button>
+        <Button
+          nativeButton={false}
+          variant="outline"
+          render={<Link to="/discover/movies" />}>
           Browse movies
         </Button>
-        <Button variant="outline" render={<Link to="/discover/tv" />}>
+        <Button
+          nativeButton={false}
+          variant="outline"
+          render={<Link to="/discover/tv" />}>
           Browse TV
         </Button>
       </div>
