@@ -31,6 +31,8 @@ VITE_TMDB_API_KEY=your-tmdb-api-key
 
 Get a key from the [TMDB developer portal](https://developer.themoviedb.org/signup). The `.env` file is gitignored and must not be committed.
 
+This app currently calls TMDB directly from the browser, so `VITE_TMDB_API_KEY` is included in the client bundle and is publicly recoverable at runtime. It is not a server secret. See [Security and API credentials](docs/security.md) for the planned server-side proxy boundary.
+
 Start the dev server:
 
 ```bash
