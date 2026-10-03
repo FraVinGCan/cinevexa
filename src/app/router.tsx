@@ -41,6 +41,11 @@ const routes: RouteObject[] = [
         handle: { title: 'Discover' },
       },
       {
+        path: 'search',
+        lazy: () => import('@/routes/search'),
+        handle: { title: 'Search' },
+      },
+      {
         path: '*',
         lazy: () => import('@/routes/not-found'),
         handle: { title: 'Not in the index' },

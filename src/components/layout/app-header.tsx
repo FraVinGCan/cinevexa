@@ -7,6 +7,7 @@ import {
 import { MobileNav } from './mobile-nav'
 import { NavLinks } from './nav-links'
 import { RegionSelect } from './region-select'
+import { SearchTrigger } from './search-trigger'
 import { ThemeToggle } from './theme-toggle'
 
 export function AppHeader() {
@@ -49,6 +50,7 @@ export function AppHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1 md:ml-2">
+          <SearchTrigger />
           <span className="sr-only" aria-live="polite">
             Region {regionLabel(region)}
           </span>

@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { AppFooter } from './app-footer'
 import { AppHeader } from './app-header'
 import { RouteSkeleton } from '@/components/feedback/route-skeleton'
+import { SearchCommand } from '@/features/search/components/search-command'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -34,6 +35,8 @@ export function AppLayout() {
         </Suspense>
       </main>
       <AppFooter />
+      {/* Inside the router so a pick from the palette can navigate from any route. */}
+      <SearchCommand />
     </div>
   )
 }

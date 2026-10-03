@@ -28,7 +28,7 @@ import {
 import { ActiveFilterChips } from './active-filter-chips'
 import { DiscoverFilterShell } from './discover-filters'
 import { DiscoverResults } from './discover-results'
-import { NumberedPagination } from './numbered-pagination'
+import { NumberedPagination } from '@/components/pagination/numbered-pagination'
 import { cn } from 'cn'
 
 const SEGMENT_LABELS: Record<DiscoverSegment, string> = {

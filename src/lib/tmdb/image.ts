@@ -40,6 +40,11 @@ export const profileSizes: Record<ProfileSize, string> = {
   lightbox: 'original',
 }
 
+export const profileDimensions: Record<ProfileSize, ArtworkSize> = {
+  list: { width: 185, height: 278 },
+  lightbox: { width: 1000, height: 1500 },
+}
+
 export const stillSizes: Record<StillSize, string> = {
   card: 'w300',
 }

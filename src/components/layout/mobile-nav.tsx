@@ -16,6 +16,7 @@ import {
 import { useUiStore } from '@/features/ui/ui.store'
 import { NavLinks } from './nav-links'
 import { RegionSelect } from './region-select'
+import { SearchTrigger } from './search-trigger'
 import { ThemeToggle } from './theme-toggle'
 
 export function MobileNav() {
@@ -53,6 +54,7 @@ export function MobileNav() {
             Market
           </span>
           <div className="flex items-center gap-1">
+            <SearchTrigger />
             <RegionSelect />
             <ThemeToggle />
           </div>
