@@ -3,12 +3,18 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ThemeProvider } from '@/components/theme-provider'
 import { queryClient } from './query-client'
+import { Toaster } from '@/components/ui/toast'
+import { AuthHydration } from '@/features/auth/components/auth-hydration'
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider />
-      <TooltipProvider>{children}</TooltipProvider>
+      <TooltipProvider>
+        <AuthHydration />
+        {children}
+        <Toaster />
+      </TooltipProvider>
     </QueryClientProvider>
   )
 }

@@ -73,9 +73,11 @@ export const endpoints = {
   removeListItem: (listId: number) => `/list/${listId}/remove_item`,
   accountStates: (mediaType: TitleMediaType | 'episode', id: number) =>
     `/${mediaType}/${id}/account_states`,
-  requestToken: () => '/authentication/token/new',
-  createSession: () => '/authentication/session/new',
   deleteSession: () => '/authentication/session',
+  v4RequestToken: () => '/auth/request_token',
+  v4AccessToken: () => '/auth/access_token',
+  v4RevokeAccessToken: () => '/auth/access_token',
+  convertV4Session: () => '/authentication/session/convert/4',
   favorite: (accountId: number) => `/account/${accountId}/favorite`,
   watchlist: (accountId: number) => `/account/${accountId}/watchlist`,
   rateTitle: (mediaType: TitleMediaType, id: number) =>

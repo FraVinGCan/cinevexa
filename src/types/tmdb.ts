@@ -683,6 +683,11 @@ export type CreateSessionResponse = {
   session_id: string
 }
 
+export type V4AccessTokenResponse = {
+  success: boolean
+  access_token: string
+}
+
 export type AuthResponse = {
   success: boolean
   status_code: number

@@ -9,6 +9,7 @@ import { NavLinks } from './nav-links'
 import { RegionSelect } from './region-select'
 import { SearchTrigger } from './search-trigger'
 import { ThemeToggle } from './theme-toggle'
+import { AccountMenu } from '@/features/auth/components/account-menu'
 
 export function AppHeader() {
   const pageTitle = usePageTitle()
@@ -56,6 +57,7 @@ export function AppHeader() {
           </span>
           <RegionSelect />
           <ThemeToggle />
+          <AccountMenu />
           <MobileNav />
         </div>
       </div>

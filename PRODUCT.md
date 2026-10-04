@@ -26,13 +26,13 @@ It exists because catalogue data is scattered across many sites, and none of the
 
 **TMDB is the only backend, the only database, and the only identity provider.** There is no server, no BFF, no serverless proxy, and no first-party account system. TMDB is the source of truth for catalogue data, artwork, trailers, reviews, watch providers, and every user-owned collection. This is a genuine mechanism, not a claim: a conventional product would need accounts, a database, and a sync layer, and this one has none.
 
-Everything user-owned therefore lives in the visitor's own TMDB account. Personal data is never held by Cinevexa beyond a TMDB `session_id` in the visitor's own browser storage. That is a real privacy property and a real constraint at the same time: there is no way to offer a Cinevexa-specific feature that TMDB cannot store, and no way to recover a library that is not a TMDB library.
+Everything user-owned therefore lives in the visitor's own TMDB account. Personal data is never held by Cinevexa beyond the TMDB v4 user access token and converted v3 `session_id` in the visitor's own browser storage. That is a real privacy property and a real constraint at the same time: there is no way to offer a Cinevexa-specific feature that TMDB cannot store, and no way to recover a library that is not a TMDB library.
 
 The other half of the position: **anonymous browsing is a complete experience, and sign-in is an upgrade rather than a gate.** Every catalogue, discovery, search, and detail surface works signed out and is never gated, stubbed, or degraded to push a sign-in prompt. Signing in with TMDB unlocks the watchlist, favourites, ratings, custom lists, and personalised recommendations. The visitor chooses to upgrade; the product does not withhold the core job in exchange.
 
 ## Operating Context
 
-- The app is a client-rendered SPA. All TMDB traffic goes directly from the visitor's browser to TMDB; requests carry the API key from build-time environment configuration.
+- The app is a client-rendered SPA. All TMDB traffic goes directly from the visitor's browser to TMDB; requests carry the credentials from build-time environment configuration.
 - **The target market is the visitor's own region.** Watch providers, certification filters, release dates, and region-scoped rails all resolve against a region the visitor selects and can change. A title being unavailable in a region is normal, not an error state.
 - Image-forward browsing is the real usage scene. The product is judged on a dark room, a large poster grid, and long horizontal browsing — so density, legibility of metadata at small sizes, and smooth scrolling are functional requirements, not decoration.
 - The primary locale is `en-US`, and the interface language is fixed at English for now.
@@ -54,7 +54,7 @@ The other half of the position: **anonymous browsing is a complete experience, a
 - TMDB is the only data source. Any feature that cannot be served by a documented TMDB endpoint is out of scope unless the constraint itself is changed deliberately.
 - No server-side rendering, no prerendering, no application-owned authentication, no first-party content of any kind.
 - TMDB rate limits are real. The home surface fans out to several independent requests; duplicate fetches for shared data and polling are defects, not trade-offs.
-- The v3 request-token authentication flow is the confirmed path, because the v4 flow requires an API Read Access Token that is not configured.
+- The v4 user-authentication flow is required. The approved v4 user token is converted into a v3 `session_id` for the current account API contract.
 - Only TMDB endpoints that back a shipped surface are implemented.
 - New dependencies require explicit approval and are pulled through the shadcn add command so the change surfaces.
 

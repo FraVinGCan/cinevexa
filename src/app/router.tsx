@@ -81,6 +81,21 @@ const routes: RouteObject[] = [
         handle: { title: 'Collection' },
       },
       {
+        path: 'auth/callback',
+        lazy: () => import('@/routes/auth-callback'),
+        handle: { title: 'Connect TMDB' },
+      },
+      {
+        path: 'account',
+        lazy: () => import('@/routes/account'),
+        handle: { title: 'My Library' },
+      },
+      {
+        path: 'lists',
+        lazy: () => import('@/routes/lists'),
+        handle: { title: 'Lists' },
+      },
+      {
         path: '*',
         lazy: () => import('@/routes/not-found'),
         handle: { title: 'Not in the index' },

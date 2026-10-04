@@ -1,12 +1,18 @@
 # Security and API credentials
 
-## Current TMDB key boundary
+## Current TMDB credential boundary
 
 Applies to: `src/lib/tmdb/**`, `.env.example`, deployment configuration
 
-Cinevexa is currently a client-rendered Vite application with no backend. The TMDB v3 API key is supplied through `VITE_TMDB_API_KEY`, which Vite embeds into the browser bundle. Anyone who can use the deployed application can therefore recover and reuse that key.
+Cinevexa is currently a client-rendered Vite application with no backend. The TMDB v3 API key and required v4 API Read Access Token are supplied through `VITE_TMDB_API_KEY` and `VITE_TMDB_API_READ_ACCESS_TOKEN`; Vite embeds both configured app credentials into the browser bundle. Anyone who can use the deployed application can therefore recover and reuse them.
 
-The key must not be treated as a server secret in this architecture. It must not be committed to Git, placed in source files, or included in `.env.example`; local values belong only in the ignored `.env` file.
+These app credentials must not be treated as server secrets in this architecture. They must not be committed to Git, placed in source files, or populated with real values in `.env.example`; local values belong only in the ignored `.env` file. Approved v4 user access tokens and converted v3 session IDs are persisted in the browser auth store for the connected user.
+
+## TMDB user authentication
+
+Cinevexa requires TMDB v4 user authentication. The app-level Read Access Token creates the v4 request token used for TMDB approval. After approval, Cinevexa exchanges the v4 user access token for a v3 `session_id` so the current account features can use the existing v3 API contract. The app persists the v4 user token and v3 session ID locally; the app-level Read Access Token remains an environment variable only.
+
+The application calls TMDB directly from the browser, so `VITE_TMDB_API_KEY` and `VITE_TMDB_API_READ_ACCESS_TOKEN` are included in the client bundle and are publicly recoverable at runtime. Neither is a server secret.
 
 ## Required production hardening
 

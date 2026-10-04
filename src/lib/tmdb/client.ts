@@ -7,15 +7,18 @@ export const TMDB_V3_BASE_URL = 'https://api.themoviedb.org/3'
 export const TMDB_V4_BASE_URL = 'https://api.themoviedb.org/4'
 
 const apiKey = import.meta.env.VITE_TMDB_API_KEY?.trim()
+const appReadAccessToken = import.meta.env.VITE_TMDB_API_READ_ACCESS_TOKEN?.trim()
 
 export type TmdbRequestOptions = {
   params?: TmdbParams
   signal?: AbortSignal
+  sessionId?: string | null
 }
 
 export type TmdbSendOptions = TmdbRequestOptions & {
   body: Record<string, unknown>
   baseUrl?: string
+  bearerToken?: string | null
 }
 
 export function assertApiKey(): void {
@@ -27,10 +30,8 @@ export function assertApiKey(): void {
   })
 }
 
-function requestHeaders(sessionId?: string | null): HeadersInit {
-  const headers: Record<string, string> = { Accept: 'application/json' }
-  if (sessionId) headers.Authorization = `Bearer ${sessionId}`
-  return headers
+function requestHeaders(): HeadersInit {
+  return { Accept: 'application/json' }
 }
 
 async function readFailure(
@@ -98,6 +99,7 @@ export async function tmdbGet<T>(
     api_key: apiKey,
     language,
     region,
+    session_id: options.sessionId,
     ...options.params,
   })
   return request<T>(
@@ -115,7 +117,7 @@ export async function tmdbSend<T>(
   path: string,
   options: TmdbSendOptions,
 ): Promise<T> {
-  assertApiKey()
+  if (!options.bearerToken) assertApiKey()
   const sessionId = useAuthStore.getState().sessionId
   const search = buildParams({ api_key: apiKey, session_id: sessionId })
   const baseUrl = options.baseUrl ?? TMDB_V3_BASE_URL
@@ -123,7 +125,68 @@ export async function tmdbSend<T>(
     `${baseUrl}${path}?${search.toString()}`,
     {
       method: 'POST',
-      headers: { ...requestHeaders(), 'Content-Type': 'application/json' },
+      headers: {
+        ...requestHeaders(),
+        ...(options.bearerToken
+          ? { Authorization: `Bearer ${options.bearerToken}` }
+          : {}),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(options.body),
+      signal: options.signal ?? null,
+    },
+    path,
+  )
+}
+
+export function hasTmdbV4AppToken(): boolean {
+  return Boolean(appReadAccessToken)
+}
+
+function requireV4AppToken(): string {
+  if (!appReadAccessToken) {
+    throw new TmdbError({
+      message: 'VITE_TMDB_API_READ_ACCESS_TOKEN is not set.',
+      kind: 'api-key',
+    })
+  }
+  return appReadAccessToken
+}
+
+export function tmdbV4Send<T>(
+  path: string,
+  options: Pick<TmdbSendOptions, 'body' | 'signal' | 'bearerToken'> = { body: {} },
+): Promise<T> {
+  const token = options.bearerToken ?? requireV4AppToken()
+  return request<T>(
+    `${TMDB_V4_BASE_URL}${path}`,
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(options.body),
+      signal: options.signal ?? null,
+    },
+    path,
+  )
+}
+
+export function tmdbV4Delete<T>(
+  path: string,
+  options: { body: Record<string, unknown>; bearerToken: string; signal?: AbortSignal },
+): Promise<T> {
+  return request<T>(
+    `${TMDB_V4_BASE_URL}${path}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${options.bearerToken}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(options.body),
       signal: options.signal ?? null,
     },
