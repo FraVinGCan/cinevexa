@@ -34,7 +34,7 @@ These rules apply throughout this repository.
 ## Skills
 
 - Load a skill with the `skill` tool when the task matches its scope. Skills live in `.agents/skills/`; load by name, not by reading `SKILL.md` directly.
-- Available skills: `impeccable`, `ui-styling`, `ui-ux-pro-max`, `design-system`, `design`, `brand`, `banner-design`, `slides`, `tanstack-ai`, `tanstack-ai-migration`.
+- Available skills: `impeccable`, `ui-styling`, `ui-ux-pro-max`, `design-system`, `design`, `brand`, `banner-design`, `slides`.
 - Load `impeccable` for UI and design work, including critique and polish passes.
 
 ## Tools

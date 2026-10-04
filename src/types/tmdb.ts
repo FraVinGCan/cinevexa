@@ -7,6 +7,8 @@ export type Paged<T> = {
 
 export type MediaType = 'movie' | 'tv' | 'person'
 
+export type TitleMediaType = 'movie' | 'tv'
+
 export type TrendingScope = MediaType | 'all'
 
 export type TrendingWindow = 'day' | 'week'
@@ -671,6 +673,8 @@ export type ListDetail = {
   results: (MovieListItem | TvListItem)[]
   object_ids?: Record<string, number | string | null>
 }
+
+export type CreateListResponse = StatusResponse & { list_id?: number }
 
 export type RequestToken = {
   success: boolean

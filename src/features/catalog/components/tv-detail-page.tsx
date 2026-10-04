@@ -29,6 +29,7 @@ import {
 import { tvDetailOptions } from '../tv'
 import { TitleDetailSections } from './title-detail-sections'
 import { SeasonList } from './season-list'
+import { LibraryActions } from '@/features/account/components/library-actions'
 import {
   regionLabel,
   usePreferencesStore,
@@ -154,6 +155,7 @@ function TvBody({ detail, region, onOpenProviders }: TvBodyProps) {
             regionLabel={regionLabel(region)}
             onOpenAll={onOpenProviders}
           />
+          <LibraryActions mediaType="tv" id={detail.id} />
         </div>
       </DetailHero>
 

@@ -28,6 +28,7 @@ import {
   providersFor,
 } from '../watch-providers'
 import { TitleDetailSections } from './title-detail-sections'
+import { LibraryActions } from '@/features/account/components/library-actions'
 import {
   regionLabel,
   usePreferencesStore,
@@ -150,6 +151,7 @@ function MovieBody({ detail, region, onOpenProviders }: MovieBodyProps) {
             regionLabel={regionLabel(region)}
             onOpenAll={onOpenProviders}
           />
+          <LibraryActions mediaType="movie" id={detail.id} />
         </div>
       </DetailHero>
 

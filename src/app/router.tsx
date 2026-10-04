@@ -96,6 +96,11 @@ const routes: RouteObject[] = [
         handle: { title: 'Lists' },
       },
       {
+        path: 'list/:id',
+        lazy: () => import('@/routes/list-detail'),
+        handle: { title: 'Custom list' },
+      },
+      {
         path: '*',
         lazy: () => import('@/routes/not-found'),
         handle: { title: 'Not in the index' },

@@ -61,14 +61,15 @@ export const endpoints = {
     mediaType: TitleMediaType,
   ) =>
     kind === 'watchlist'
-      ? `/account/${accountId}/watchlist/${mediaType}`
+      ? `/account/${accountId}/watchlist/${mediaType === 'movie' ? 'movies' : 'tv'}`
       : kind === 'favorite'
-        ? `/account/${accountId}/favorite/${mediaType}`
-        : `/account/${accountId}/rated/${mediaType}`,
+        ? `/account/${accountId}/favorite/${mediaType === 'movie' ? 'movies' : 'tv'}`
+        : `/account/${accountId}/rated/${mediaType === 'movie' ? 'movies' : 'tv'}`,
   accountLists: (accountId: number) => `/account/${accountId}/lists`,
   list: (listId: number) => `/list/${listId}`,
   createList: () => '/list',
   clearList: (listId: number) => `/list/${listId}/clear`,
+  deleteList: (listId: number) => `/list/${listId}`,
   addListItem: (listId: number) => `/list/${listId}/add_item`,
   removeListItem: (listId: number) => `/list/${listId}/remove_item`,
   accountStates: (mediaType: TitleMediaType | 'episode', id: number) =>

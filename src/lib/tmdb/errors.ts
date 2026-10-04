@@ -12,6 +12,10 @@ const STATUS_CODE_COPY: Record<
   number,
   { kind: TmdbErrorKind; message: string }
 > = {
+  8: {
+    kind: 'parameters',
+    message: 'This title is already in that list.',
+  },
   3: {
     kind: 'authentication',
     message:
@@ -30,6 +34,10 @@ const STATUS_CODE_COPY: Record<
   36: {
     kind: 'parameters',
     message: 'TMDB rejected these filters. Clear the filters and try again.',
+  },
+  38: {
+    kind: 'authentication',
+    message: 'This TMDB session does not own that list.',
   },
 }
 

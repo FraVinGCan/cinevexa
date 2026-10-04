@@ -7,7 +7,8 @@ export const TMDB_V3_BASE_URL = 'https://api.themoviedb.org/3'
 export const TMDB_V4_BASE_URL = 'https://api.themoviedb.org/4'
 
 const apiKey = import.meta.env.VITE_TMDB_API_KEY?.trim()
-const appReadAccessToken = import.meta.env.VITE_TMDB_API_READ_ACCESS_TOKEN?.trim()
+const appReadAccessToken =
+  import.meta.env.VITE_TMDB_API_READ_ACCESS_TOKEN?.trim()
 
 export type TmdbRequestOptions = {
   params?: TmdbParams
@@ -63,9 +64,9 @@ async function readFailure(
   })
 }
 
-function handleUnauthorized(): void {
+function handleUnauthorized(url: string): void {
   const { sessionId, clearSession } = useAuthStore.getState()
-  if (sessionId) clearSession()
+  if (sessionId && url.includes('session_id=')) clearSession()
 }
 
 async function request<T>(
@@ -82,7 +83,7 @@ async function request<T>(
   }
   if (!response.ok) {
     const error = await readFailure(response, endpoint)
-    if (response.status === 401) handleUnauthorized()
+    if (response.status === 401) handleUnauthorized(url)
     throw error
   }
   if (response.status === 204) return undefined as T
@@ -119,7 +120,11 @@ export async function tmdbSend<T>(
 ): Promise<T> {
   if (!options.bearerToken) assertApiKey()
   const sessionId = useAuthStore.getState().sessionId
-  const search = buildParams({ api_key: apiKey, session_id: sessionId })
+  const search = buildParams({
+    api_key: apiKey,
+    session_id: sessionId,
+    ...options.params,
+  })
   const baseUrl = options.baseUrl ?? TMDB_V3_BASE_URL
   return request<T>(
     `${baseUrl}${path}?${search.toString()}`,
@@ -155,7 +160,9 @@ function requireV4AppToken(): string {
 
 export function tmdbV4Send<T>(
   path: string,
-  options: Pick<TmdbSendOptions, 'body' | 'signal' | 'bearerToken'> = { body: {} },
+  options: Pick<TmdbSendOptions, 'body' | 'signal' | 'bearerToken'> = {
+    body: {},
+  },
 ): Promise<T> {
   const token = options.bearerToken ?? requireV4AppToken()
   return request<T>(
@@ -174,9 +181,32 @@ export function tmdbV4Send<T>(
   )
 }
 
+export function tmdbV4Get<T>(
+  path: string,
+  options: { bearerToken?: string | null; signal?: AbortSignal } = {},
+): Promise<T> {
+  const token = options.bearerToken ?? requireV4AppToken()
+  return request<T>(
+    `${TMDB_V4_BASE_URL}${path}`,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      signal: options.signal ?? null,
+    },
+    path,
+  )
+}
+
 export function tmdbV4Delete<T>(
   path: string,
-  options: { body: Record<string, unknown>; bearerToken: string; signal?: AbortSignal },
+  options: {
+    body: Record<string, unknown>
+    bearerToken: string
+    signal?: AbortSignal
+  },
 ): Promise<T> {
   return request<T>(
     `${TMDB_V4_BASE_URL}${path}`,

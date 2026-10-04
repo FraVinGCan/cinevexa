@@ -50,7 +50,5 @@ Load the matching skill from `.agents/skills/` with the `skill` tool, by name, w
 - `brand` — brand voice, visual identity, and messaging.
 - `banner-design` — banners, covers, and hero art.
 - `slides` — HTML presentations and Chart.js visualizations.
-- `tanstack-ai` — AI chat, streaming, tool calling, and agents.
-- `tanstack-ai-migration` — moving to or off TanStack AI, or off a deprecated API.
 
 Verify UI in the browser with Playwright instead of asserting that it works.
