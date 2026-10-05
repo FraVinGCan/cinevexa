@@ -8,7 +8,9 @@ export function RequireSession({ children }: { children: React.ReactNode }) {
   const sessionId = useAuthStore((state) => state.sessionId)
 
   if (status !== 'authenticated' || !sessionId) {
-    return <ConnectPrompt destination={`${location.pathname}${location.search}`} />
+    return (
+      <ConnectPrompt destination={`${location.pathname}${location.search}`} />
+    )
   }
   return children
 }

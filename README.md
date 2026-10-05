@@ -53,12 +53,12 @@ npm run dev
 
 ```
 src/
-├── App.tsx                 # Root component
-├── main.tsx                # Entry point, providers and router setup
-├── components/
-│   └── ui/                 # shadcn/ui components
-├── lib/
-│   └── utils.ts            # Shared helpers
-└── css/
-    └── main.css            # Global styles
+├── app/                  # Router, providers, query client, error boundary
+├── components/           # Layout, media, detail, feedback, ui (shadcn)
+├── features/             # Auth, catalog, search, account, preferences
+├── lib/                  # TMDB client/helpers, hooks, utils
+├── routes/               # Lazy route modules
+├── types/                # Shared types
+├── main.tsx              # Entry point
+└── css/                  # Global styles
 ```

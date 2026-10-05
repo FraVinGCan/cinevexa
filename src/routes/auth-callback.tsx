@@ -26,12 +26,11 @@ export function Component() {
   // V4 redirects are not required to include an `approved` query parameter.
   // The access-token exchange is the authoritative approval check.
   const approved = Boolean(requestToken)
-  const callbackError =
-    !hasTmdbV4AppToken()
-      ? 'TMDB v4 authentication is not configured for this app.'
-      : !requestToken || !approved
-        ? 'TMDB did not approve the connection.'
-        : null
+  const callbackError = !hasTmdbV4AppToken()
+    ? 'TMDB v4 authentication is not configured for this app.'
+    : !requestToken || !approved
+      ? 'TMDB did not approve the connection.'
+      : null
 
   useEffect(() => {
     let active = true
@@ -45,7 +44,8 @@ export function Component() {
 
     useAuthStore.getState().setStatus('authenticating')
     const complete = async () => {
-      const v4AccessToken = (await createV4AccessToken(requestToken)).access_token
+      const v4AccessToken = (await createV4AccessToken(requestToken))
+        .access_token
       const session = await convertV4Session(v4AccessToken)
       const account = await getAccount(session.session_id)
       return { account, session, v4AccessToken }
@@ -66,7 +66,11 @@ export function Component() {
       .catch((reason: unknown) => {
         if (!active) return
         useAuthStore.getState().setStatus('error')
-        setError(reason instanceof Error ? reason.message : 'TMDB rejected the connection.')
+        setError(
+          reason instanceof Error
+            ? reason.message
+            : 'TMDB rejected the connection.',
+        )
       })
 
     return () => {
@@ -78,7 +82,9 @@ export function Component() {
     return (
       <EmptyState
         title="Could not connect TMDB"
-        description={error ?? callbackError ?? 'The connection was not approved.'}>
+        description={
+          error ?? callbackError ?? 'The connection was not approved.'
+        }>
         <Button onClick={() => void navigate('/account', { replace: true })}>
           Return to my library
         </Button>

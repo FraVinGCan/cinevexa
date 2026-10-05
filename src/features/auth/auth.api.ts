@@ -27,7 +27,9 @@ export function createV4AccessToken(
   })
 }
 
-export function convertV4Session(accessToken: string): Promise<CreateSessionResponse> {
+export function convertV4Session(
+  accessToken: string,
+): Promise<CreateSessionResponse> {
   return tmdbSend<CreateSessionResponse>(endpoints.convertV4Session(), {
     body: { access_token: accessToken },
   })

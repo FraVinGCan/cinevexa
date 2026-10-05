@@ -1,8 +1,4 @@
-import {
-  deleteSession,
-  requestV4Token,
-  revokeV4AccessToken,
-} from './auth.api'
+import { deleteSession, requestV4Token, revokeV4AccessToken } from './auth.api'
 import { useAuthStore } from './auth.store'
 import { toast } from '@/components/ui/toast-manager'
 

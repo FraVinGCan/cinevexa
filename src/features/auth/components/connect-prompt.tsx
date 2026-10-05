@@ -16,10 +16,7 @@ export function ConnectPrompt({ destination }: { destination: string }) {
           <LogInIcon />
           Connect TMDB
         </Button>
-        <Button
-          nativeButton={false}
-          variant="ghost"
-          render={<Link to="/" />}>
+        <Button nativeButton={false} variant="ghost" render={<Link to="/" />}>
           Keep browsing
         </Button>
       </div>
